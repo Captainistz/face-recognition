@@ -3,9 +3,9 @@ import mysql.connector as con
 from datetime import date, datetime
 
 db = con.connect(
-    host = "localhost",
-    user = "root",
-    passwd = "",
+    host = "172.20.10.10",
+    user = "jaw",
+    passwd = "123456",
     database = "utd_affairs"
 )
 
@@ -25,7 +25,6 @@ def student_scan_in(user, date, time, status):
     scanin_data = (user, date, time, status)
     boolcheck_query = "UPDATE student SET schoolCheck = %s WHERE student_id = %s"
     boolcheck_data = (1, user)
-    
     sql.execute(scanin_query, scanin_data)
     sql.execute(boolcheck_query, boolcheck_data)
     db.commit()
@@ -42,5 +41,5 @@ addstudent_query = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s)"
 addstudent_data = (34808, '1234', 'นายกัปตัน', 'พึ่งเป็นสุข', '5.1', '4', '5')
 sql.execute(addstudent_query, addstudent_data)
 """
-if __name__ == "__main__":
-    _insert(34808, 'นายกัปตัน', 'พึ่งเป็นสุข', '5.1', '4')
+#if __name__ == "__main__":
+#    _insert(34808, 'นายกัปตัน', 'พึ่งเป็นสุข', '5.1', '4')

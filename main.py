@@ -6,13 +6,12 @@ import time
 import urllib
 from datetime import date, datetime
 import database_mysql.query
+import line_noti
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('trainer/trainer.yml')
 cascadePath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascadePath)
-
-
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -30,6 +29,7 @@ while True:
     now = datetime.now()
     today_date = today.strftime("%d/%m/%Y") # ex. 11/09/2020
     now_time = now.strftime("%H:%M:%S") # ex. 21:53:20
+    status = "normal"
 
     ret, img = cam.read()
 
@@ -51,7 +51,8 @@ while True:
             confidence = "  {0}%".format(round(100 - confidence))
             
             if database_mysql.query.check(id) == 0:
-                database_mysql.query.student_scan_in(id, str(today_date), str(now_time), "normal")
+                database_mysql.query.student_scan_in(id, str(today_date), str(now_time), str(status))
+                line_noti.notifyFile(id, str(status))
             #else:
             #    time.sleep(0.02)
             #    print(str(id) + " is already scanned in before.")

@@ -7,8 +7,7 @@ import urllib.request
 from datetime import date, datetime
 import database_mysql.query
 import line_noti
-
-url = "http://192.168.43.2/cam-hi.jpg"
+import url_cfg
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('trainer/trainer.yml')
@@ -27,7 +26,7 @@ minW = 0.1*cam.get(3)
 minH = 0.1*cam.get(4)
 
 while True:
-    imgResp=urllib.request.urlopen(url)
+    imgResp=urllib.request.urlopen(url_cfg.url)
     imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
     img=cv2.imdecode(imgNp,-1)
 
@@ -36,6 +35,7 @@ while True:
     today_date = today.strftime("%d/%m/%Y") # ex. 11/09/2020
     now_time = now.strftime("%H:%M:%S") # ex. 21:53:20
     status = "normal"
+    status_thai = ""
 
     #ret, img = cam.read()
 
@@ -58,7 +58,13 @@ while True:
             
             if database_mysql.query.check(id) == 0:
                 database_mysql.query.student_scan_in(id, str(today_date), str(now_time), str(status))
-                line_noti.notifyFile(id, str(status))
+                if status == "normal":
+                    status_thai = "อุณหภูมิปกติ"
+                elif status == "hightemp":
+                    status_thai = "อุณหภูมิสูงเกินปกติ"
+                else:
+                    print('[ERROR] Hmm.. status string is not match.')
+                line_noti.notifyFile(id, str(status_thai))
             #else:
             #    time.sleep(0.02)
             #    print(str(id) + " is already scanned in before.")

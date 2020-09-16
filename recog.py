@@ -3,10 +3,9 @@ import cv2
 import json
 import urllib.request
 import numpy as np
+import url_cfg
 
 def recog_face(name, face_id):
-    url = "http://192.168.43.2/cam-hi.jpg"
-
     cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
     face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -21,7 +20,7 @@ def recog_face(name, face_id):
     os.mkdir('./dataset/' + name + '.' + str(face_id))
 
     while(True):
-        imgResp=urllib.request.urlopen(url)
+        imgResp=urllib.request.urlopen(url_cfg.url)
         imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
         img=cv2.imdecode(imgNp,-1)
         #ret, img = cam.read()

@@ -15,7 +15,7 @@ def notifyFile(studentid, status):
     dbfile.sql.execute(lastname)
     lastname_result = dbfile.sql.fetchone()
     dbfile.db.commit()
-    text = "\n" + str(studentid) + " | " + name_result[0] +  ' ' + lastname_result[0] + "\n" + "เวลา : " + datetime.now().strftime("%H:%M:%S") + "\n" + "สถานะ : " + status
+    text = " [DEBUG]" + "\n" + str(studentid) + " | " + name_result[0] +  ' ' + lastname_result[0] + "\n" + "เวลา : " + datetime.now().strftime("%H:%M:%S") + "\n" + "สถานะ : " + status
     #print(text) #--debugging name and lastname
     payload = {'message':text}
     return _lineNotify(payload)

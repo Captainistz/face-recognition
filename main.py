@@ -3,10 +3,12 @@ import cv2
 import json
 import numpy as np
 import time
-import urllib
+import urllib.request
 from datetime import date, datetime
 import database_mysql.query
 import line_noti
+
+url = "http://192.168.43.2/cam-hi.jpg"
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('trainer/trainer.yml')
@@ -25,13 +27,17 @@ minW = 0.1*cam.get(3)
 minH = 0.1*cam.get(4)
 
 while True:
+    imgResp=urllib.request.urlopen(url)
+    imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
+    img=cv2.imdecode(imgNp,-1)
+
     today = date.today()
     now = datetime.now()
     today_date = today.strftime("%d/%m/%Y") # ex. 11/09/2020
     now_time = now.strftime("%H:%M:%S") # ex. 21:53:20
     status = "normal"
 
-    ret, img = cam.read()
+    #ret, img = cam.read()
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = faceCascade.detectMultiScale(
@@ -64,7 +70,7 @@ while True:
         cv2.putText(img, str(confidence), (x+5, y+h-5),
                     font, 1, (255, 255, 0), 1)
 
-    cv2.imshow('Camera', img)
+    cv2.imshow('image', img)
 
     k = cv2.waitKey(10) & 0xff
     if k == 27:

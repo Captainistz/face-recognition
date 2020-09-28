@@ -3,7 +3,7 @@ import mysql.connector as con
 from datetime import date, datetime
 
 db = con.connect(
-    host = "172.20.10.10",
+    host = "192.168.43.85",
     user = "jaw",
     passwd = "123456",
     database = "utd_affairs"

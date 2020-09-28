@@ -1,8 +1,8 @@
 import os
-import cv2
+from cv2 import cv2
 import json
 import numpy as np
-import time
+import time 
 import urllib.request
 from datetime import date, datetime
 import database_mysql.query
@@ -20,10 +20,6 @@ id = 0
 
 with open("json/user.json") as f:
     users = json.loads(f.read())
-
-cam = cv2.VideoCapture(0)
-minW = 0.1*cam.get(3)
-minH = 0.1*cam.get(4)
 
 while True:
     imgResp=urllib.request.urlopen(url_cfg.url)
@@ -43,8 +39,8 @@ while True:
     faces = faceCascade.detectMultiScale(
         gray,
         scaleFactor=1.3,
-        minNeighbors=5,
-        minSize=(int(minW), int(minH)),
+        minNeighbors=5
+        #minSize=(int(minW), int(minH)),
     )
 
     for(x, y, w, h) in faces:
@@ -83,5 +79,5 @@ while True:
         break
 
 print("\n [INFO] Exiting Program")
-cam.release()
+#cam.release()
 cv2.destroyAllWindows()

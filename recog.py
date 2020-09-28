@@ -1,12 +1,12 @@
 import os
-import cv2
+from cv2 import cv2
 import json
 import urllib.request
 import numpy as np
 import url_cfg
 
 def recog_face(name, face_id):
-    cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    #cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
     face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
@@ -23,6 +23,7 @@ def recog_face(name, face_id):
         imgResp=urllib.request.urlopen(url_cfg.url)
         imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
         img=cv2.imdecode(imgNp,-1)
+
         #ret, img = cam.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         faces = face_detector.detectMultiScale(gray, 1.3, 5)
@@ -34,7 +35,7 @@ def recog_face(name, face_id):
             cv2.imwrite("dataset/" + str(name) + '.' + str(face_id) +
                         '/' + str(count) + ".jpg", gray[y:y+h, x:x+w])
 
-            cv2.imshow('image', img)
+            cv2.imshow('test', img)
 
         k = cv2.waitKey(100) & 0xff
         if k == 27:
@@ -46,5 +47,5 @@ def recog_face(name, face_id):
         json.dump(users, f, indent=4, sort_keys=True)
 
     print("\n [INFO] Exiting Program")
-    cam.release()
+    #cam.release()
     cv2.destroyAllWindows()

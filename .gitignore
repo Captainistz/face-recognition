@@ -1,5 +1,6 @@
 .vscode/
 database_mysql/__pycache__/
 TODO
+.DS_STORE
 dataset/
 __pycache__/

@@ -54,12 +54,10 @@ while True:
             
             if database_mysql.query.check(id) == 0:
                 database_mysql.query.student_scan_in(id, str(today_date), str(now_time), str(status))
-                if status == "normal":
-                    status_thai = "อุณหภูมิปกติ"
-                elif status == "hightemp":
-                    status_thai = "อุณหภูมิสูงเกินปกติ"
+                if database_mysql.query.checktemp() == 1:
+                    status_thai = "อุณหภูมิสูงเกินกว่าปกติ"
                 else:
-                    print('[ERROR] Hmm.. status string is not match.')
+                    status_thai = "อุณหภูมิปกติ"
                 line_noti.notifyFile(id, str(status_thai))
             #else:
             #    time.sleep(0.02)

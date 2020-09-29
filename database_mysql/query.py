@@ -11,6 +11,17 @@ db = con.connect(
 
 sql = db.cursor()
 
+def checktemp():
+    _check = "SELECT temperature FROM temp_db"
+    sql.execute(_check)
+    result = sql.fetchone()
+    if result[0]==1:
+        print(1)
+        return 1
+    else:
+        print(0)
+        return 0
+
 def check(user):
     _check = "SELECT schoolCheck FROM student WHERE student_id = " + str(user)
     sql.execute(_check)
@@ -18,7 +29,7 @@ def check(user):
     if result[0]==1:
         return 1
     else:
-        return 0
+        return 0    
 
 def student_scan_in(user, date, time, status):
     scanin_query = "INSERT INTO scan_in_logs (user, date, time, status) VALUES (%s, %s, %s, %s)"

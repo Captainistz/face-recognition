@@ -4,7 +4,7 @@ import mysql.connector as con
 import database_mysql.query as dbfile
 
 url = 'https://notify-api.line.me/api/notify'
-token = 'WJpRrzHr3Y8WW3XPyf7nXzbyjSsZdF1OFX5X3Q6VgUs'
+token = 'YOUR TOKEN'
 headers = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
 
 def notifyFile(studentid, status):
